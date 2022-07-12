@@ -4,7 +4,7 @@ const path = require('path');
 const PORT = 4321
 
 const mongoose = require('mongoose');
-const MONGO_URI: 'mongodb+srv://Kagan07:Sailing49er@cluster0.9nqml.mongodb.net/?retryWrites=true&w=majority'
+const MONGO_URI: 'mongodb+srv://Kagan07:Sailing49er@cluster0.9nqml.mongodb.net/?retryWrites=true&w=majority';
 
 //require routers
 
