@@ -3,7 +3,7 @@ const medsController = require('../server/controllers/medsController.js');
 
 const apiRouter = express.Router();
 
-apiRouter.get('/', medsController,
+apiRouter.get('/:user', medsController,
 (req, res) => {
     return res.status(200).json();
 })

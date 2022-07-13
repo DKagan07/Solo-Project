@@ -1,21 +1,26 @@
 const express = require('express');
 const app = express();
+
 const path = require('path');
-const PORT = 4321
+const PORT = 4321;
 
 
 
 //require routers
-const apiRouter = require('./routers/apiRouter.js')
+// const userRouter = require('./routers/userRouter.js')
 
 
 //json parse and static files
 app.use(express.json())
+app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.resolve(__dirname, '../client')));
+app.use('/dist', express.static(path.resolve(__dirname, '../dist'))) //gets production server showing
 
 //route handlers
 
-app.use('/:user', apiRouter);
+
+// app.use('/user', userRouter);
+
 
 
 
