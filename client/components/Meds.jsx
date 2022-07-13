@@ -9,7 +9,7 @@ class Meds extends Component {
 
     render() {
         return(
-
+            <div></div>
         );
     }
 }

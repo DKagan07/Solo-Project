@@ -56,6 +56,12 @@ class MedContainer extends Component {
         super();
     }
 
+    async fetchData (medName) {
+       const medData = fetch(`https://api.fda.gov/drug/ndc.json?search=generic_name:${medName}&limit=1`)
+       const jsonMedData = medData.json(); //or just use json parse
+
+    }
+
     render() {
         return (
             <div>
