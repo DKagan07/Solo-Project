@@ -15,7 +15,7 @@ app.use(express.static(path.resolve(__dirname, '../client')));
 
 //route handlers
 
-app.use('/', apiRouter);
+app.use('/:user', apiRouter);
 
 
 
