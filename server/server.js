@@ -14,51 +14,23 @@ const medApiRouter = require('./routers/medApiRouter.js')
 app.use(express.json())
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.resolve(__dirname, '../client')));
-app.use('/dist', express.static(path.resolve(__dirname, '../dist'))) //gets production server showing
+
+if (process.env.NODE_ENV === 'production') {
+    app.use('/dist', express.static(path.resolve(__dirname, '../dist'))) //gets production server showing
+}
+
 
 //route handlers
-
-
-// app.use('/user', userRouter);
-
-/*
-IDEA:
-instead of making the initial fetch a get request in the frontend, make it a post request, put it into the meds.json,
-and then the response will be accessed from the front end to render onto page
-*/
-
-
 
 app.use('/', medApiRouter)
 
 
-// (req, res) => {
-//     const { generic_name, brand_name, pharm_class, strength, route, active_ingredients } = req.body;
-//     res.locals.med = {
-//         generic_name: generic_name,
-//         brand_name: brand_name,
-//         pharm_class: pharm_class,
-//         strength: strength,
-//         route: route,
-//         active_ingredients: activeIngArr,
-//     }
-//     fs.appendFile('./meds.json', JSON.stringify(res.locals.med), (err) => {
-//         if (err) {
-//             return next ({
-//                 log: 'Error in /meds post req to meds.js',
-//                 message: {
-//                     err: `${err} to move data to meds.json`,
-//                 }
-//             })
-//         }
-//     })
-//     return res.status(200).json('med stored')
-// }
-
-
 
 //catch all route handler
-app.use((req, res) => {return res.sendStatus(404);})
+app.use((req, res) => {
+    console.log('Catch all route handler!');
+    return res.sendStatus(403);
+})
 
 
 //global error handler

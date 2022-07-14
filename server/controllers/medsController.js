@@ -1,4 +1,4 @@
-// const medsDB = require('../server/models/models.js');
+const medsDB = require('../server/models/models.js');
 const fetch = require('node-fetch');
 const fs = require('fs');
 
@@ -10,14 +10,16 @@ medsController.getMeds = async (req, res, next) => {
         const { medName } = req.params
 
         const data = await fetch(`https://api.fda.gov/drug/ndc.json?search=brand_name:${medName}&limit=1`)
-        // console.log(data);
         const medData = await data.json()
 
-        // console.log(medData)
         res.locals.medData = medData
-        // fs.appendFile('meds.json', res.locals.medData)
-        // .then(() => {
-        return next()  
+
+        //have a create db in a separate piece of middleware
+        // medsDB.create(JSON.stringify(medData))
+        // const dbData = fs.appendFileSync('../meds.json', JSON.stringify(medData))
+        // console.log('appended file!, ', dbData);
+
+        return next()       
         
     }
     catch(err) {
@@ -28,6 +30,16 @@ medsController.getMeds = async (req, res, next) => {
             }
         })
     }
+}
+
+
+medsController.addToDB = async (req, res, next) => {
+    //deconstructing data from res.locals.medData to eventually store in a database
+    const { generic_name, brand_name, pharm_class } = res.locals.medData.results[0];
+    const { strength } = res.locals.medData.results[0].active_ingredients[0]
+    const route = medData.results[0].route[0];
+
+    
 }
 
 

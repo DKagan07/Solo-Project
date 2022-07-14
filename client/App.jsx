@@ -23,8 +23,6 @@ class MainContainer extends Component {
     constructor() {
         super();
 
-        
-
         this.state = {
             generic_name: '',
             brand_name: '',
@@ -48,10 +46,8 @@ class MainContainer extends Component {
     async getMedicationInfo (medName) {
         try {
 
-            /*
-            let medData = await (await fetch(`https://api.fda.gov/drug/ndc.json?search=brand_name:${medName}&limit=1`)).json()
-            */
-            const data = await(fetch(`/${medName}`));
+            const url = "/" + medName;
+            const data = await(fetch(url));
             const medData = await data.json()
 
 
@@ -66,8 +62,6 @@ class MainContainer extends Component {
             for (let i = 0; i < Object.values(medData.results[0].active_ingredients).length; i++) {
                 activeIngArr += Object.values(medData.results[0].active_ingredients)[i].name + ', ';
             }
-            
-            // console.log(generic_name, brand_name, pharm_class, strength, route, activeIngArr);
 
             const prevMed = {
                 generic_name: generic_name,
@@ -80,8 +74,6 @@ class MainContainer extends Component {
 
             const newList = [...this.state.list, prevMed ]
 
-
-
             //updating state
             this.setState({
                 generic_name: generic_name,
@@ -92,29 +84,12 @@ class MainContainer extends Component {
                 active_ingredients: activeIngArr,
                 list: newList,
             })
-
-
-            // console.log('state in stateful component: ', this.state);
-
-            //send data to backend to be stored in a json file
-            // const sentData = await fetch('/meds/', {
-            //     method: 'PUT',
-            //     headers: {
-            //         'Content-Type': 'Application/JSON'
-            //     },
-            //     body: JSON.stringify({
-            //         generic_name: generic_name,
-            //         brand_name: brand_name,
-            //         pharm_class: pharm_class,
-            //         strength: strength,
-            //         route: route,
-            //         active_ingredients: activeIngArr,
-            //     })
-            // })
-            }
-            catch{(err) => console.log('error for posting meds, ', err)}
-            
         }
+        catch{
+            (err) => console.log('error for posting meds, ', err)
+        }
+            
+    }
 
     render () {
         return (
@@ -135,10 +110,8 @@ class AddMed extends Component {
     }
 
     render() {
-
         return (
             <div>
-                {/* <p>insert form here for people to put in their medication name</p> */}
                 <label for='medName'>Brand name:</label> 
                 <input type='text' id='medName' name='medName'></input>
                 <button type='button' className='medSubmit' onClick={() => this.props.getMedicationInfo(this.props.getValue())}>Query Medication</button>
@@ -152,10 +125,8 @@ class MedContainer extends Component {
     constructor() {
         super();
     }
-
     render() {
 
-        // console.log('props in MedContainer: ', this.props)
         const listOfMeds = [];
         for (let i = 0; i < this.props.list.length; i++){
             listOfMeds.push(<Meds generic_name={this.props.list[i].generic_name} brand_name={this.props.list[i].brand_name} pharm_class={this.props.list[i].pharm_class} 
@@ -176,11 +147,9 @@ class Meds extends Component {
     constructor() {
         super();
     }
-
     render() {
         //destructuring information from this.props
         const { generic_name, brand_name, pharm_class, strength, route, active_ingredients} = this.props
-        // console.log('in Meds: ', generic_name, brand_name, pharm_class, strength, route);
         return (
             <div>
                 <h3>{brand_name}</h3>

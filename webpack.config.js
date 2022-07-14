@@ -38,10 +38,13 @@ module.exports = {
         port: 8080,
         host: 'localhost',
         static: {
-            // publicPath: '/',
-            directory: path.resolve(__dirname, 'dist'),
+            publicPath: '/',
+            directory: path.resolve(__dirname, 'client'),
         },
         hot: true,
+        devMiddleware: {
+            index: false,
+        },
         proxy: {
             '/': {
                 target: 'http://localhost:4321',

@@ -21,8 +21,12 @@ mongoose.connect(MONGO_URI, {
 
 //database schema
 const medicationSchema = new Schema({
-    user: { type: String, required: true},
-
+    brand_name: String,
+    generic_name: String,
+    pharm_class: [String],
+    strength: String,
+    route: String,
+    active_ingredients: [String],
 })
 
 
