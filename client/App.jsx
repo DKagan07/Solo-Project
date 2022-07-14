@@ -45,8 +45,6 @@ class MainContainer extends Component {
 
     async getMedicationInfo (medName) {
 
-        console.log('ya clicked me');
-        //     https://api.fda.gov/drug/ndc.json?search=generic_name:${medName}&limit=1
         const medData = await (await fetch(`https://api.fda.gov/drug/ndc.json?search=generic_name:${medName}&limit=1`)).json()
 
         //getting generic_name and brand_name (string) and pharm_class (array), active_ingredients (array of objects);
@@ -56,15 +54,12 @@ class MainContainer extends Component {
         //getting route (array)
         const route = medData.results[0].route[0]
 
-        // console.log('active ingredient 1: ', medData.results[0].active_ingredients[0].name, 'active ingredient 2: ', medData.results[0].active_ingredients[1].name)
-        // console.log('strength, ', strength, 'active_ingredients: ', active_ingredients )
-
         let activeIngArr = '';
         for (let i = 0; i < Object.values(medData.results[0].active_ingredients).length; i++) {
             activeIngArr += Object.values(medData.results[0].active_ingredients)[i].name + ', ';
         }
-        console.log(activeIngArr);
 
+        //updating state
         this.setState({
             generic_name: generic_name,
             brand_name: brand_name,
@@ -74,7 +69,24 @@ class MainContainer extends Component {
             active_ingredients: activeIngArr,
         })
 
-        console.log('state: ', this.state);
+
+        //send data to backend to be stored in a json file
+        const sentData = await fetch('/meds/', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'Application/JSON'
+            },
+            body: JSON.stringify({
+                generic_name: generic_name,
+                brand_name: brand_name,
+                pharm_class: pharm_class,
+                strength: strength,
+                route: route,
+                active_ingredients: activeIngArr,
+            })
+        })
+        console.log(sentData.json())
+        .catch(err => console.log('error for posting meds, ', err))
 
     }
 
@@ -91,7 +103,6 @@ class MainContainer extends Component {
 }
 
 //the area of main container in which user inputs medication name
-    //goal is to fetch the API for medicaiton name and add it to the medication area
 class AddMed extends Component {
     constructor() {
         super();
@@ -104,7 +115,7 @@ class AddMed extends Component {
                 {/* <p>insert form here for people to put in their medication name</p> */}
                 <label for='medName'>Medication:</label> 
                 <input type='text' id='medName' name='medName'></input>
-                <button type='button' className='medSubmit' onClick={() => console.log(this.props.getMedicationInfo(this.props.getValue()))}>Query Medication</button>
+                <button type='button' className='medSubmit' onClick={() => this.props.getMedicationInfo(this.props.getValue())}>Query Medication</button>
             </div>
         );
     }

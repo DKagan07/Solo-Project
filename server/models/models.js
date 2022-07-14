@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+
+//create another project and use that new cluster as a new db for this project
+
+
 //connect to the mongodb database
 const MONGO_URI = 'mongodb+srv://Kagan07:Sailing49er@cluster0.9nqml.mongodb.net/?retryWrites=true&w=majority';
 
@@ -18,7 +22,7 @@ mongoose.connect(MONGO_URI, {
 //database schema
 const medicationSchema = new Schema({
     user: { type: String, required: true},
-    
+
 })
 
 

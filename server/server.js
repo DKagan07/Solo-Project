@@ -3,7 +3,7 @@ const app = express();
 
 const path = require('path');
 const PORT = 4321;
-
+const fs = require('fs');
 
 
 //require routers
@@ -21,7 +21,35 @@ app.use('/dist', express.static(path.resolve(__dirname, '../dist'))) //gets prod
 
 // app.use('/user', userRouter);
 
+/*
+IDEA:
+instead of making the initial fetch a get request in the frontend, make it a post request, put it into the meds.json,
+and then the response will be accessed from the front end to render onto page
+*/
 
+
+app.use('/meds', (req, res) => {
+    const { generic_name, brand_name, pharm_class, strength, route, active_ingredients } = req.body;
+    res.locals.med = {
+        generic_name: generic_name,
+        brand_name: brand_name,
+        pharm_class: pharm_class,
+        strength: strength,
+        route: route,
+        active_ingredients: activeIngArr,
+    }
+    fs.appendFile('./meds.json', JSON.stringify(res.locals.med), (err) => {
+        if (err) {
+            return next ({
+                log: 'Error in /meds post req to meds.js',
+                message: {
+                    err: `${err} to move data to meds.json`,
+                }
+            })
+        }
+    })
+    return res.status(200).json('med stored')
+})
 
 
 //catch all route handler

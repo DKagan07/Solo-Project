@@ -12,12 +12,6 @@ medsController.getMeds = async (req, res, next) => {
     // const { medName } = req.body;
     // const medData = await fetch(`https://api.fda.gov/drug/ndc.json?search=generic_name:${medName}&limit=1`)
 
-    const user = res.params.user
-
-    const medDBfetch = await medDB.findOne({user: user})
-    if (medDBfetch) {
-        
-    }
 }
 
 
