@@ -31,7 +31,7 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './client/index.html',
-            // fileName: 'index.html',
+            fileName: 'index.html',
         })
     ],
     devServer: {
@@ -42,11 +42,11 @@ module.exports = {
             directory: path.resolve(__dirname, 'dist'),
         },
         hot: true,
-        // proxy: {
-        //     '/': {
-        //         target: 'http://localhost:4321',
-        //         secure: false,
-        //     }
-        // },
+        proxy: {
+            '/': {
+                target: 'http://localhost:4321',
+                secure: false,
+            }
+        },
     },
 }

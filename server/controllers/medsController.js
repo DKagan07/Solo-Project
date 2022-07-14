@@ -1,18 +1,34 @@
-const medsDB = require('../server/models/models.js');
+// const medsDB = require('../server/models/models.js');
+const fetch = require('node-fetch');
+const fs = require('fs');
 
 const medsController = {};
 
 
 medsController.getMeds = async (req, res, next) => {
+    try {
+        const { medName } = req.params
 
-    //******/
-        //this fetch request was moved to the front end, but might still need this for the back end
-    //******/
+        const data = await fetch(`https://api.fda.gov/drug/ndc.json?search=brand_name:${medName}&limit=1`)
+        // console.log(data);
+        const medData = await data.json()
 
-    // const { medName } = req.body;
-    // const medData = await fetch(`https://api.fda.gov/drug/ndc.json?search=generic_name:${medName}&limit=1`)
-
+        // console.log(medData)
+        res.locals.medData = medData
+        // fs.appendFile('meds.json', res.locals.medData)
+        // .then(() => {
+        return next()  
+        
+    }
+    catch(err) {
+        next({
+            log: 'Error in fetching data!',
+            err: {
+                message: `${err} in medsController.getMeds middleware function`
+            }
+        })
+    }
 }
 
 
-module.export = medsController;
+module.exports = medsController;
