@@ -1,4 +1,4 @@
-const medsDB = require('../server/models/models.js');
+// const medsDB = require('../server/models/models.js');
 const fetch = require('node-fetch');
 const fs = require('fs');
 
@@ -33,14 +33,14 @@ medsController.getMeds = async (req, res, next) => {
 }
 
 
-medsController.addToDB = async (req, res, next) => {
-    //deconstructing data from res.locals.medData to eventually store in a database
-    const { generic_name, brand_name, pharm_class } = res.locals.medData.results[0];
-    const { strength } = res.locals.medData.results[0].active_ingredients[0]
-    const route = medData.results[0].route[0];
+// medsController.addToDB = async (req, res, next) => {
+//     //deconstructing data from res.locals.medData to eventually store in a database
+//     const { generic_name, brand_name, pharm_class } = res.locals.medData.results[0];
+//     const { strength } = res.locals.medData.results[0].active_ingredients[0]
+//     const route = medData.results[0].route[0];
 
-    
-}
+
+// }
 
 
 module.exports = medsController;
